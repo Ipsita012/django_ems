@@ -11,8 +11,6 @@ from django.db import models
 
 
 class Employee(models.Model):
-
-
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
@@ -24,6 +22,9 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=16)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     hire_date = models.DateField()
+
+    def __str__(self):
+        return 'first_name=%s, last_name=%s' % (self.first_name, self.last_name)
 
     class Meta:
         db_table = 'employees'
@@ -57,20 +58,7 @@ class DeptManager(models.Model):
     class Meta:
         db_table = 'dept_manager'
         unique_together = (('emp_no', 'dept_no'),)
-
-
-class Feedback(models.Model):
-    name = models.CharField(max_length=100)
-    subject = models.CharField(max_length=200)
-    category = models.CharField(max_length=10)
-    email = models.CharField(max_length=150)
-    comment = models.CharField(max_length=500)
-    is_read = models.BooleanField()
-    created_on = models.DateTimeField()
-
-    class Meta:
-        db_table = 'feedback'
-
+        
 
 class Salaries(models.Model):
     emp_no = models.ForeignKey(Employee, models.DO_NOTHING, db_column='emp_no')
