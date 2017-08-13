@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import EmailValidator, MinLengthValidator, MaxLengthValidator
 
 
 class Feedback(models.Model):
@@ -15,7 +16,7 @@ class Feedback(models.Model):
   name = models.CharField(max_length=100)
   subject = models.CharField(max_length=200)
   category = models.CharField(max_length=10, default='General', choices=CATEGORY_CHOICES)
-  email = models.CharField(max_length=150)
+  email = models.CharField(max_length=150, validators=[EmailValidator(), MinLengthValidator(7), MaxLengthValidator(100)])
   comment = models.CharField(max_length=600)
   is_read = models.BooleanField(default=False)
   created_on = models.DateTimeField(default=timezone.now, null=False)
